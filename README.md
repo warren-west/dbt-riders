@@ -100,13 +100,13 @@ db.connectDb()
 
 ### Ride Analytics
 
-- `GET /rides/avePricePerCity` - Returns the average ride price grouped by city, ordered highest to lowest.
-- `GET /rides/aveRideTimePerCity` - Returns the average ride duration per city, calculated from `startTime` to `endTime` in minutes.
-- `GET /rides/totalRidesPerCity` - Returns the total number of rides per city, ordered by ride count descending.
+- `GET /rides/analytics/average-price-by-city` - Returns the average ride price grouped by city, ordered highest to lowest.
+- `GET /rides/analytics/average-duration-by-city` - Returns the average ride duration per city, calculated from `startTime` to `endTime` in minutes.
+- `GET /rides/analytics/count-by-city` - Returns the total number of rides per city, ordered by ride count descending.
 
 ### Ride Lifecycle
 
-- `POST /rides/start` - Starts a new ride.
+- `POST /rides` - Starts a new ride.
   - Required body fields:
     - `city`
     - `DriverId`
@@ -121,13 +121,13 @@ db.connectDb()
 }
 ```
 
-- `PUT /rides/end/:rideId` - Ends an in-progress ride and marks it as completed.
+- `POST /rides/:rideId/end` - Ends an in-progress ride and marks it as completed.
   - Required body fields:
     - `price`
     - `distance`
   - Updates `endTime`, `price`, `distance`, and sets `rideState` to `COMPLETED`.
 
-- `PUT /rides/cancel/:rideId` - Cancels an in-progress ride.
+- `POST /rides/:rideId/cancel` - Cancels an in-progress ride.
   - Validates that the ride exists and is currently `IN_PROGRESS`.
   - Also requires the ride to be at least one minute old before it can be canceled.
   - Sets `endTime`, `price` to `0.0`, `distance` to `0.0`, and `rideState` to `CANCELED`.
