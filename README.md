@@ -138,7 +138,7 @@ Represents a ride transaction with details about the trip.
 
 #### Driver
 Represents a driver in the system.
-- **driverId**: Auto-incrementing primary key
+- **id**: Auto-incrementing primary key
 - **fullname**: String (required) - Driver's full name
 - **licenseCode**: Enum ('B', 'BA', 'C', 'D', 'E') - Vehicle license category
 
@@ -146,7 +146,7 @@ Represents a driver in the system.
 
 #### Customer
 Represents a customer who books rides.
-- **customerId**: Auto-incrementing primary key
+- **id**: Auto-incrementing primary key
 - **name**: String (required) - Customer's name
 
 **Relationships**: Has many Rides (one-to-many)
