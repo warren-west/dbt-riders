@@ -15,7 +15,10 @@ const sequelize = new Sequelize({
     password: process.env.DB_PASSWORD,
     username: process.env.DB_USER,
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT
+    port: process.env.DB_PORT,
+    // only turn on logging when we're in dev mode.
+    // if we're in production mode, no logs
+    logging: process.env.NODE_ENV === 'dev',
 })
 
 // define the db wrapper object
@@ -25,7 +28,18 @@ db.sequelize = sequelize
 // we will invoke the .connectDb() method in server.js before we start the server listening
 async function connectDb() {
     await sequelize.validate()
-    await sequelize.sync() // maybe use { force: true, alter: true }
+    // if we're running in production mode,
+    // don't use { force: true, alter: true }
+    if (process.env.NODE_ENV === 'prod') {
+        console.log('NODE_ENV: ', process.env.NODE_ENV)
+        await sequelize.sync()
+    }
+    // if we ARE running in dev mode,
+    // use { force: true, alter: true }
+    else if (process.env.NODE_ENV === 'dev') {
+        console.log('NODE_ENV: ', process.env.NODE_ENV)
+        await sequelize.sync({ force: true, alter: true })
+    }
 }
 
 db.connectDb = connectDb

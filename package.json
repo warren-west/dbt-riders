@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "start": "set NODE_ENV=prod&& node server.js",
+    "dev": "set NODE_ENV=dev&& node --watch server.js"
   },
   "dependencies": {
     "dotenv": "^18.0.4",
