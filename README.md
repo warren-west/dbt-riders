@@ -97,3 +97,57 @@ db.connectDb()
 
 - `GET /` - Index endpoint, returns a welcome message
 - `GET /health` - Health check, returns a status message
+
+### Ride Analytics
+
+- `GET /rides/avePricePerCity` - Returns the average ride price grouped by city, ordered highest to lowest.
+- `GET /rides/aveRideTimePerCity` - Returns the average ride duration per city, calculated from `startTime` to `endTime` in minutes.
+- `GET /rides/totalRidesPerCity` - Returns the total number of rides per city, ordered by ride count descending.
+
+### Ride Lifecycle
+
+- `POST /rides/start` - Starts a new ride.
+  - Required body fields:
+    - `city`
+    - `DriverId`
+    - `CustomerId`
+  - Example payload:
+
+```json
+{
+  "city": "New York",
+  "DriverId": 1,
+  "CustomerId": 2
+}
+```
+
+- `PUT /rides/end/:rideId` - Ends an in-progress ride and marks it as completed.
+  - Required body fields:
+    - `price`
+    - `distance`
+  - Updates `endTime`, `price`, `distance`, and sets `rideState` to `COMPLETED`.
+
+- `PUT /rides/cancel/:rideId` - Cancels an in-progress ride.
+  - Validates that the ride exists and is currently `IN_PROGRESS`.
+  - Also requires the ride to be at least one minute old before it can be canceled.
+  - Sets `endTime`, `price` to `0.0`, `distance` to `0.0`, and `rideState` to `CANCELED`.
+
+### Response Format
+
+Most ride endpoints return JSON responses in the form:
+
+```json
+{
+  "status": "Success",
+  "data": []
+}
+```
+
+Error responses return a status code and a descriptive message:
+
+```json
+{
+  "status": "Error",
+  "message": "'city' is required."
+}
+```
