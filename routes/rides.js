@@ -3,7 +3,7 @@ const { QueryTypes } = require('sequelize')
 const db = require('../models')
 
 // average ride price per city
-router.get('/avePricePerCity', async (req, res) => {
+router.get('/analytics/average-price-by-city', async (req, res) => {
     try {
         // execute the SQL command
         const results = await db.sequelize
@@ -24,7 +24,7 @@ router.get('/avePricePerCity', async (req, res) => {
 })
 
 // average ride time per city
-router.get('/aveRideTimePerCity', async (req, res) => {
+router.get('/analytics/average-duration-by-city', async (req, res) => {
     try {
         // execute the SQL command
         const results = await db.sequelize
@@ -45,7 +45,7 @@ router.get('/aveRideTimePerCity', async (req, res) => {
 })
 
 // total rides per city
-router.get('/totalRidesPerCity', async (req, res) => {
+router.get('/analytics/count-by-city', async (req, res) => {
     try {
         // execute the SQL command
         const results = await db.sequelize
@@ -68,7 +68,7 @@ router.get('/totalRidesPerCity', async (req, res) => {
 // start a new ride
 // get CustomerId and DriverId from req.body
 // get the city from req.body 
-router.post('/start', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         // if city, DriverId, or CustomerId was missing, throw 400 error
         if (!req.body.city) {
@@ -104,7 +104,7 @@ router.post('/start', async (req, res) => {
 })
 
 // end a ride IN_PROGRESS
-router.put('/end/:rideId', async (req, res) => {
+router.post('/:rideId/end', async (req, res) => {
     try {
         // check for missing req.body values (400)
         if (!req.body.price) {
@@ -149,7 +149,7 @@ router.put('/end/:rideId', async (req, res) => {
 })
 
 // cancel a ride IN_PROGRESS
-router.put('/cancel/:rideId', async (req, res) => {
+router.post('/:rideId/cancel', async (req, res) => {
     // invalidate request if time is less than one minute
     try {
         // check the ride is in IN_PROGRESS state (400)
