@@ -11,6 +11,6 @@ const rideRouter = require('./routes/rides')
 app.use('/', indexRouter)
 app.use('/health', healthRouter)
 app.use('/seed', seedRouter)
-app.use('/rides', rideRouter)
+app.use('/rides', rideRouter) // e.g., /drives/rides/analytics/average-price-by-city
 
 module.exports = app

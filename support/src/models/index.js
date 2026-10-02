@@ -10,11 +10,6 @@ const sequelize = new Sequelize({
     port: process.env.DB_PORT,
     logging: process.env.NODE_ENV === 'dev',
     dialect: process.env.DB_DIALECT,
-    dialectOptions: {
-        options: {
-            encrypt: true
-        }
-    }
 })
 
 // initialize db wrapper object
